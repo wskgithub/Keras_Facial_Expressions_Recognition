@@ -1,8 +1,10 @@
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.layers.core import Dense, Dropout, Flatten
 from keras.models import Sequential
-from keras.layers import Dense, GlobalAveragePooling2D
 from keras.utils import plot_model
+from keras.callbacks import TensorBoard
+from keras.optimizers import Adam
+from keras.preprocessing.image import ImageDataGenerator
 
 
 def initialize_model(filters, kernel_size, input_shape, pool_size, nb_classes):
@@ -65,7 +67,7 @@ def train(model, x_train, y_train, x_test, y_test, batch_size, epochs, model_nam
     :return:null
     """
     # 使用TensorBoard对训练过程进行可视化
-    tb = TensorBoard(log_dir='./logs',  # log 目录
+    tb = TensorBoard(log_dir='./logs/tensorboard',  # log 目录
                      histogram_freq=1,  # 按照何等频率（epoch）来计算直方图，0为不计算
                      batch_size=32,  # 用多大量的数据计算直方图
                      write_graph=True,  # 是否存储网络结构图

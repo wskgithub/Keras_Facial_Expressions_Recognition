@@ -2,6 +2,9 @@ import numpy as np
 from keras.models import load_model
 from load_data import load_images
 
+KIND_LISTS = ['anger', 'contempt','disgust', 'fear', 'happy', 'sadness', 'surprise']
+IMAGE_SIZE = (48,48)
+
 def classify_image(model, image_lists, kind_lists):
     """
     对测试集图片进行分类，并输出分类日志
@@ -18,7 +21,7 @@ def classify_image(model, image_lists, kind_lists):
         proba = np.max(result) # 取出相似度最高的一项
         label = kind_lists[int(np.where(result == proba)[0])] # 获得识别出类型的标签
         # 打印分类log
-        log = ("result:" + label + " -> " + str(proba * 100) 
+        log = ("result:" + label + " -> " + str(proba * 100)
             + " -> source:" + image[1] 
             + " -> name:" + image[2] 
             + " -> path:" + image[3]
