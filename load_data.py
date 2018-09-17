@@ -15,6 +15,7 @@ def load_images(path, image_size):
     :param image_size:图像张量
     :return:图片数据和标签
     """
+    print("[INFO] loading images...")
     data = []
     labels = []
     # 获得图像路径并随机选取

@@ -5,7 +5,16 @@ from keras.utils import plot_model
 from keras.callbacks import TensorBoard
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
+from load_data import load_images
+import os
 
+FILTERS = 32 # 卷积滤波器数量
+IMAGE_SIZE = (64,64) # 图像缩放大小
+KERNEL_SIZE = (3,3) # 卷积核大小
+INPUT_SHAPE = (64,64,3) # 图像张量
+POOL_SIZE = (2,2) # 池化缩小比例因素
+NB_CLASSES = 0 # 分类数
+EPOCHS = 100 # 循环的次数
 
 def initialize_model(filters, kernel_size, input_shape, pool_size, nb_classes):
     """
@@ -91,3 +100,17 @@ def train(model, x_train, y_train, x_test, y_test, batch_size, epochs, model_nam
     # 训练结束保存模型
     print("[INFO] save model...")
     model.save(model_name)
+
+
+if __name__=='__main__':
+    print('[INFO] start...')
+    train_images_path = "data/CK+48_train" # 训练集
+    test_images_path = "data/CK+48_test"# 测试集
+
+    # 加载图片
+    x_train_background, y_train_background = load_images(train_images_path, IMAGE_SIZE)
+    x_test_background, y_test_background = load_images(test_images_path, IMAGE_SIZE)
+    #初始化模型
+    model = initialize_model(FILTERS, KERNEL_SIZE, INPUT_SHAPE, POOL_SIZE,len(os.listdir(train_images_path)))
+    # 训练模型
+    train(model, x_train_background, y_train_background, x_test_background, y_test_background, 8, EPOCHS, 'models/base_model.h5')
